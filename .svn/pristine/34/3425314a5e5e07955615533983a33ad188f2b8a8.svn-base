@@ -1,0 +1,40 @@
+<template>
+  <div>
+    <img @click="tanchu" style="width:85%;margin:0 auto;display:block;" src="../../assets/biaoge4.png" alt="">
+  <KhsxModal ref="shoutana"></KhsxModal>
+  </div>
+</template>
+
+<script>
+  import KhsxModal from './modules/KhsxModal'
+
+  export default {
+    name: "KhsxList",
+    mixins:[],
+    components: {
+      KhsxModal
+    },
+    data () {
+      return { 
+    }
+  },
+  computed: {
+  },
+    methods: {
+     tanchu(){
+      this.$refs.shoutana.dakai()
+    },
+    }
+  }
+</script>
+<style scoped>
+  @import '~@assets/less/common.less';
+  .moBan {
+  background: #17c295;
+  border: 1px solid #17c295;
+}
+.moBan:hover {
+  background: #3ad0a8;
+  border: 1px solid #17c295;
+}
+</style>

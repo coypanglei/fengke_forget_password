@@ -1,0 +1,39 @@
+<template>
+  <div class="zhbox">
+    <div class="zh">
+      <img  src="../../assets/zhwl1.png" alt />
+    </div>
+    <div class="zh">
+      <img  src="../../assets/zhwl2.png" alt />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'KhsxList',
+  mixins: [],
+  components: {},
+  data() {
+    return {}
+  },
+  computed: {},
+  methods: {}
+}
+</script>
+<style lang="less" scoped>
+@import '~@assets/less/common.less';
+.zhbox {
+  display: flex;
+  padding: 15px 30px;
+  justify-content: space-between;
+}
+.zh {
+  width: 49%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+</style>

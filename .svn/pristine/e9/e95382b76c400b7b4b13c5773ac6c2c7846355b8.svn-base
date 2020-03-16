@@ -1,0 +1,754 @@
+<template>
+  <a-modal
+    :title="title"
+    width="100%"
+    :destroyOnClose="xiaohui"
+    style="height:100%;top:0px;"
+    :visible="visible"
+    :footer="footer"
+    @cancel="handleCancel"
+  >
+    <a-spin :spinning="spinning" :style="'min-height:'+gaodu+'px'">
+      <div class="jia_top">
+        <a-button
+          type="primary"
+          style="margin-right:20px;"
+          icon="save"
+          @click="getchazx"
+          v-show="cha"
+          v-if="zhanshia"
+        >查询</a-button>
+         <a-button
+          type="primary"
+          style="margin-right:20px;"
+          icon="save"
+          @click="reapply"
+          v-show="cha"
+          v-if="zhanshib"
+        >重新申请</a-button>
+        <span
+          class="wenzi"
+          style="color: red;font-size: 17px;"
+          v-show="zhanshiwen!==''"
+        >{{zhanshiwen}}</span>
+      </div>
+      <div style="min-height: 528px;">
+        <div class="zheng_all" v-if="zhanshiwen==''">
+          <!-- 配偶信息查询 -->
+          <p class="cahxun" style="margin-top:30px;">
+            <span class="cahxun_title">申请人征信查询数据</span>
+          </p>
+          <p class="daikuancha" style="margin-top:30px;">
+            <img class="daikuancha_tu" src="../../../assets/daikuancha.png" alt /> 贷款数据
+          </p>
+          <div class="dailuanliebiao">
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">我行余额(万元)</p>
+              <div class="dailuanliebiao_b">
+                <div>
+                  <p class="dailuanliebiao_a_b">经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.jyxwhye}}</p>
+                </div>
+                <div>
+                  <p class="dailuanliebiao_a_b">非经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.fjyxwhye}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">他行余额(万元)</p>
+              <div class="dailuanliebiao_b">
+                <div>
+                  <p class="dailuanliebiao_a_b">经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.jyxthye}}</p>
+                </div>
+                <div>
+                  <p class="dailuanliebiao_a_b">非经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.fjyxthye}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">逾期金额(万元)</p>
+              <div class="dailuanliebiao_b">
+                <div>
+                  <p class="dailuanliebiao_a_b">经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.jyxyqje}}</p>
+                </div>
+                <div>
+                  <p class="dailuanliebiao_a_b">非经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.fjyxyqje}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">逾期区间</p>
+              <div class="dailuanliebiao_b">
+                <div>
+                  <p class="dailuanliebiao_a_b">经营性</p>
+                  <p class="dailuanliebiao_b_a"></p>
+                </div>
+                <div>
+                  <p class="dailuanliebiao_a_b">非经营性</p>
+                  <p class="dailuanliebiao_b_a"></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">不良余额(万元)</p>
+              <div class="dailuanliebiao_b">
+                <div>
+                  <p class="dailuanliebiao_a_b">经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.jyxblye}}</p>
+                </div>
+                <div>
+                  <p class="dailuanliebiao_a_b">非经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.fjyxblye}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">逾期次数</p>
+              <div class="dailuanliebiao_b">
+                <div>
+                  <p class="dailuanliebiao_a_b">经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.jyxyqcs}}</p>
+                </div>
+                <div>
+                  <p class="dailuanliebiao_a_b">非经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.fjyxyqcs}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">五级分类</p>
+              <div class="dailuanliebiao_b">
+                <div>
+                  <p class="dailuanliebiao_a_b">经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.jyxwjfl}}</p>
+                </div>
+                <div>
+                  <p class="dailuanliebiao_a_b">非经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.fjyxwjfl}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">他行贷款机构数</p>
+              <div class="dailuanliebiao_b">
+                <div>
+                  <p class="dailuanliebiao_a_b">经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.jyxthdkjgs}}</p>
+                </div>
+                <div>
+                  <p class="dailuanliebiao_a_b">非经营性</p>
+                  <p class="dailuanliebiao_b_a">{{zXCXBenRen.fjyxthdkjgs}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">个人信用记录评价</p>
+              <div class="dailuanliebiao_b">
+                <div>
+                  <p class="dailuanliebiao_a_b">经营性</p>
+                  <p class="dailuanliebiao_b_a" style="font-size:20px">{{zXCXBenRen.jyxgrxyjlpj}}</p>
+                </div>
+                <div>
+                  <p class="dailuanliebiao_a_b">非经营性</p>
+                  <p class="dailuanliebiao_b_a" style="font-size:20px">{{zXCXBenRen.fjyxgrxyjlpj}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="daikuancha" style="margin-top:30px;">
+            <img class="daikuancha_tu" src="../../../assets/daikuancha.png" alt /> 信用卡
+          </p>
+
+          <div class="dailuanliebiao">
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">张数</p>
+              <p class="dailuanliebiao_a_c">{{zXCXBenRen.xykzs}}</p>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">授信额度(万元)</p>
+              <p class="dailuanliebiao_a_c">{{zXCXBenRen.xyksxje}}</p>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">已用金额(万元)</p>
+              <p class="dailuanliebiao_a_c">{{zXCXBenRen.xykyyje}}</p>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">累计逾期次数</p>
+              <p class="dailuanliebiao_a_c">{{zXCXBenRen.xykljyqcs}}</p>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">最高逾期次数</p>
+              <p class="dailuanliebiao_a_c">{{zXCXBenRen.xykzgyqcs}}</p>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">当前逾期次数</p>
+              <p class="dailuanliebiao_a_c">{{zXCXBenRen.xykdqyqcs}}</p>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">最高逾期金额(万元)</p>
+              <p class="dailuanliebiao_a_c">{{zXCXBenRen.xykzgyqje}}</p>
+            </div>
+          </div>
+
+          <p class="daikuancha" style="margin-top:30px;">
+            <img class="daikuancha_tu" src="../../../assets/daikuancha.png" alt /> 个人担保
+          </p>
+          <div class="dailuanliebiao">
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">担保金额汇总(万元)</p>
+              <p class="dailuanliebiao_a_c">{{zXCXBenRen.dbje}}</p>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">担保是否逾期</p>
+              <p class="dailuanliebiao_a_c" style="font-size:24px;">{{zXCXBenRen.dbsfyq}}</p>
+            </div>
+
+            <div class="dailuanliebiao_a">
+              <p class="dailuanliebiao_a_a">五级分类</p>
+              <p class="dailuanliebiao_a_c" style="font-size:24px;">{{zXCXBenRen.wjfl}}</p>
+            </div>
+          </div>
+
+          <!-- 近一年征信查询记录 -->
+          <p class="cahxun" style="margin-top:20px;">
+            <span class="cahxun_title" style="border:none;">近一年征信查询记录</span>
+          </p>
+
+          <!-- 近一年征信查询记录列表 -->
+          <a-table
+            style="margin-top:20px;  border-radius: 10px;margin-bottom:20px;background:#ffffff;box-shadow: 0px 0px 7px rgba(124, 123, 123, 0.34)"
+            :columns="columnsa"
+            :dataSource="nian"
+          />
+          <!-- 征信审核结论 -->
+          <p class="jielun">
+            <span style="font-weight:600;">征信审核结论</span>
+            <button v-if="zXCXBenRen.zxshjl == '通过'" class="tongguo">通过</button>
+            <button v-if="zXCXBenRen.zxshjl != '通过'" class="weitongg">未通过</button>
+          </p>
+          <!-- 配偶信息查询 -->
+          <div v-if="zXCXPeiOu != ''">
+            <p class="cahxun" style="margin-top:40px;">
+              <span class="cahxun_title">配偶征信查询数据</span>
+            </p>
+            <p class="daikuancha" style="margin-top:30px;">
+              <img class="daikuancha_tu" src="../../../assets/daikuancha.png" alt /> 贷款数据
+            </p>
+            <div class="dailuanliebiao">
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">我行余额(万元)</p>
+                <div class="dailuanliebiao_b">
+                  <div>
+                    <p class="dailuanliebiao_a_b">经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.jyxwhye}}</p>
+                  </div>
+                  <div>
+                    <p class="dailuanliebiao_a_b">非经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.fjyxwhye}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">他行余额(万元)</p>
+                <div class="dailuanliebiao_b">
+                  <div>
+                    <p class="dailuanliebiao_a_b">经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.jyxthye}}</p>
+                  </div>
+                  <div>
+                    <p class="dailuanliebiao_a_b">非经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.fjyxthye}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">逾期金额(万元)</p>
+                <div class="dailuanliebiao_b">
+                  <div>
+                    <p class="dailuanliebiao_a_b">经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.jyxyqje}}</p>
+                  </div>
+                  <div>
+                    <p class="dailuanliebiao_a_b">非经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.fjyxyqje}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">逾期区间</p>
+                <div class="dailuanliebiao_b">
+                  <div>
+                    <p class="dailuanliebiao_a_b">经营性</p>
+                    <p class="dailuanliebiao_b_a"></p>
+                  </div>
+                  <div>
+                    <p class="dailuanliebiao_a_b">非经营性</p>
+                    <p class="dailuanliebiao_b_a"></p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">不良余额(万元)</p>
+                <div class="dailuanliebiao_b">
+                  <div>
+                    <p class="dailuanliebiao_a_b">经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.jyxblye}}</p>
+                  </div>
+                  <div>
+                    <p class="dailuanliebiao_a_b">非经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.fjyxblye}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">逾期次数</p>
+                <div class="dailuanliebiao_b">
+                  <div>
+                    <p class="dailuanliebiao_a_b">经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.jyxyqcs}}</p>
+                  </div>
+                  <div>
+                    <p class="dailuanliebiao_a_b">非经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.fjyxyqcs}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">五级分类</p>
+                <div class="dailuanliebiao_b">
+                  <div>
+                    <p class="dailuanliebiao_a_b">经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.jyxwjfl}}</p>
+                  </div>
+                  <div>
+                    <p class="dailuanliebiao_a_b">非经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.fjyxwjfl}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">他行贷款机构数</p>
+                <div class="dailuanliebiao_b">
+                  <div>
+                    <p class="dailuanliebiao_a_b">经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.jyxthdkjgs}}</p>
+                  </div>
+                  <div>
+                    <p class="dailuanliebiao_a_b">非经营性</p>
+                    <p class="dailuanliebiao_b_a">{{zXCXPeiOu.fjyxthdkjgs}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">个人信用记录评价</p>
+                <div class="dailuanliebiao_b">
+                  <div>
+                    <p class="dailuanliebiao_a_b">经营性</p>
+                    <p class="dailuanliebiao_b_a" style="font-size:20px">{{zXCXPeiOu.jyxgrxyjlpj}}</p>
+                  </div>
+                  <div>
+                    <p class="dailuanliebiao_a_b">非经营性</p>
+                    <p class="dailuanliebiao_b_a" style="font-size:20px">{{zXCXPeiOu.fjyxgrxyjlpj}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="daikuancha" style="margin-top:30px;">
+              <img class="daikuancha_tu" src="../../../assets/daikuancha.png" alt /> 信用卡
+            </p>
+            <div class="dailuanliebiao">
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">张数</p>
+                <p class="dailuanliebiao_a_c">{{zXCXPeiOu.xykzs}}</p>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">授信额度(万元)</p>
+                <p class="dailuanliebiao_a_c">{{zXCXPeiOu.xyksxje}}</p>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">已用金额(万元)</p>
+                <p class="dailuanliebiao_a_c">{{zXCXPeiOu.xykyyje}}</p>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">累计逾期次数</p>
+                <p class="dailuanliebiao_a_c">{{zXCXPeiOu.xykljyqcs}}</p>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">最高逾期次数</p>
+                <p class="dailuanliebiao_a_c">{{zXCXPeiOu.xykzgyqcs}}</p>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">当前逾期次数</p>
+                <p class="dailuanliebiao_a_c">{{zXCXPeiOu.xykdqyqcs}}</p>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">最高逾期金额(万元)</p>
+                <p class="dailuanliebiao_a_c">{{zXCXPeiOu.xykzgyqje}}</p>
+              </div>
+            </div>
+
+            <p class="daikuancha" style="margin-top:30px;">
+              <img class="daikuancha_tu" src="../../../assets/daikuancha.png" alt /> 个人担保
+            </p>
+            <div class="dailuanliebiao">
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">担保金额汇总(万元)</p>
+                <p class="dailuanliebiao_a_c">{{zXCXPeiOu.dbje}}</p>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">担保是否逾期</p>
+                <p class="dailuanliebiao_a_c" style="font-size:24px;">{{zXCXPeiOu.dbsfyq}}</p>
+              </div>
+
+              <div class="dailuanliebiao_a">
+                <p class="dailuanliebiao_a_a">五级分类</p>
+                <p class="dailuanliebiao_a_c" style="font-size:24px;">{{zXCXPeiOu.wjfl}}</p>
+              </div>
+            </div>
+
+            <!-- 近一年征信查询记录 -->
+            <p class="cahxun" style="margin-top:35px;">
+              <span class="cahxun_title" style="border:none;">近一年征信查询记录</span>
+            </p>
+
+            <!-- 近一年征信查询记录列表 -->
+            <a-table
+              style="margin-top:20px; border-radius: 10px;margin-bottom:20px;background:#ffffff;box-shadow: 0px 0px 7px rgba(124, 123, 123, 0.34)"
+              :columns="columnsa"
+              :dataSource="nian"
+            />
+            <!-- 征信审核结论 -->
+            <p class="jielun">
+              <span style="font-weight:600;">征信审核结论</span>
+              <button v-if="zXCXPeiOu.zxshjl == '通过'" class="tongguo">通过</button>
+              <button v-if="zXCXPeiOu.zxshjl != '通过'" class="weitongg">未通过</button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </a-spin>
+  </a-modal>
+</template>
+
+<script>
+import { getAction } from '@/api/manage'
+import { postAction, putAction } from '@/api/manage'
+import shouxie from './shouxie'
+export default {
+  name: 'SxsqDbgsdbfxModal',
+  components: {
+    shouxie
+  },
+  data() {
+    return {
+      xiaohui: true,
+      title: '征信查询',
+      visible: false,
+      footer: null,
+      spinning: false,
+      zhanshia: false,
+      zhanshib:false,
+      zhanshiwen: '',
+      zXCXBenRen: {}, //征信查询本人
+      columnsa: [
+        {
+          title: '序号',
+          align: 'center',
+          dataIndex: 'khh'
+        },
+        {
+          title: '查询时间',
+          align: 'center',
+          dataIndex: 'khmc'
+        },
+        {
+          title: '查询机构',
+          align: 'center',
+          dataIndex: 'sqsx'
+        },
+        {
+          title: '查询原因',
+          align: 'center',
+          dataIndex: 'lczt'
+        }
+      ],
+      nian: [{ khh: '1', khmc: '2019-02-03', sqsx: '江苏省连云港东海农商银行 牛山支行', lczt: '申请我行贷款' }],
+      zXCXPeiOu: '',
+      gaodu: '',
+      id: ''
+    }
+  },
+  props: ['sxid', 'cha'],
+  created() {
+    this.gaodu = document.body.clientHeight - 93
+  },
+  methods: {
+    // 查询征信授权书
+    getchazx() {
+      console.log(446546)
+      let obj = {
+        id: this.id
+      }
+      this.spinning = true
+      getAction('/business/sxsqZx/dbAdd', obj)
+        .then(res => {
+          console.log(res)
+          if (res.success == true) {
+            //console.log('接口成功')
+            this.zXinformation()
+          } else {
+            // 接口失败
+          }
+        })
+        .finally(() => {
+          this.spinning = false
+        })
+    },
+    reapply(){
+let obj = {
+        dbid: this.id,
+        sxid:this.sxid
+      }
+      this.spinning = true
+      getAction('/business/sxsqZx/edit', obj)
+        .then(res => {
+          console.log(res)
+          if (res.success == true) {
+            //console.log('接口成功')
+            this.zXinformation()
+          } else {
+            // 接口失败
+          }
+        })
+        .finally(() => {
+          this.zXinformation();
+        })
+    },
+    //关闭
+    handleCancel() {
+      this.visible = false
+    },
+    // 确定
+    handleOk() {},
+    dakai(e) {
+      console.log(e)
+      this.id = e
+      this.zXinformation()
+    },
+    //征信查询
+    zXinformation() {
+      var that = this
+      console.log(that.sxid, that.id)
+      let obj = {
+        sxid: that.sxid,
+        description: that.id
+      }
+      this.spinning = true
+      getAction('/business/sxsqZxcx/list', obj)
+        .then(res => {
+          if (res.success == true) {
+            this.visible = true
+            if (res.result.records.length > 0 && res.result.records.length != 1) {
+              for (var i = 0; i < res.result.records.length; i++) {
+                if (res.result.records[i].js == '本人') {
+                  this.zXCXBenRen = res.result.records[i]
+                } else if (res.result.records[i].js == '配偶') {
+                  this.zXCXPeiOu = res.result.records[i]
+                }
+              }
+            } else if (res.result.records.length == 1) {
+              this.zXCXBenRen = res.result.records[0]
+              this.zXCXPeiOu = ''
+            }
+            this.zhanshiwen = ''
+            this.zhanshia = false
+          } else {
+            // 接口失败
+            this.zhanshiwen = res.message
+            if (res.message.indexOf('请先填写授信申请书') > -1) {
+              this.visible = false
+              // 接口失败
+              this.$notification.warn({
+                message: '提示',
+                description: res.message,
+                duration: 3
+              })
+            } else {
+              this.visible = true
+            }
+            if (res.message.indexOf('没有相关查询任务') > -1) {
+              this.zhanshia = true
+            } else {
+              this.zhanshia = false
+            }
+
+            if(res.message.indexOf('征信查询申请被否决') > -1)
+            {
+              this.zhanshib=true;
+            }
+            else{
+              this.zhanshib=false;
+            }
+          }
+        })
+        .finally(() => {
+          this.spinning = false
+        })
+    }
+  }
+}
+</script>
+
+<style scoped>
+.zheng_all {
+  margin-top: 20px;
+}
+.cahxun_title {
+  border-left: 6px solid #47a5ff;
+  padding-left: 4px;
+  font-size: 16px;
+  color: #535353;
+  margin-right: 20px;
+}
+.daikuancha {
+  font-size: 16px;
+  color: #5eaaee;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.daikuancha_tu {
+  width: 24px;
+  height: 29px;
+  margin-right: 6px;
+}
+.dailuanliebiao {
+  display: flex;
+  align-items: center;
+  padding: 0px 0px;
+  flex-wrap: wrap;
+  border: 1px solid rgba(73, 160, 237, 0.6);
+  padding-bottom: 40px;
+  padding-right: 15px;
+  background-color: rgba(73, 160, 237, 0.08);
+  border-radius: 6px;
+  margin-top: 10px;
+}
+.dailuanliebiao_a {
+  cursor: pointer;
+  width: 198px;
+  height: 110px;
+  padding: 14px 26px;
+  box-shadow: 0px 0px 7px rgba(124, 123, 123, 0.34);
+  border-radius: 10px;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  margin-left: 56px;
+  margin-top: 40px;
+  background-color: #ffffff;
+}
+.dailuanliebiao_a_a {
+  font-size: 14px;
+  color: #464646;
+  font-weight: 600;
+  padding-bottom: 2px;
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.dailuanliebiao_b {
+  display: flex;
+}
+.dailuanliebiao_b div {
+  width: 50%;
+  text-align: center;
+}
+.dailuanliebiao_b_a {
+  font-size: 20px;
+  font-weight: 600;
+  color: #49a0ed;
+}
+
+.dailuanliebiao_a_b {
+  font-size: 14px;
+  color: #777676;
+}
+.dailuanliebiao_a_b span {
+  font-size: 20px;
+  font-weight: 600;
+  color: #777676;
+  margin-right: 16px;
+}
+.dailuanliebiao_a_c {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 600;
+  color: #49a0ed;
+  margin-bottom: 12px;
+}
+.tongguo {
+  background-color: #f3f2f2;
+  color: #1890ff;
+  border: none;
+  text-shadow: 0px 0px 7px rgba(124, 123, 123, 0.34);
+  border-radius: 8px;
+  font-size: 24px;
+  width: 80px;
+  height: 36px;
+  margin-left: 8px;
+  position: relative;
+  outline: none;
+  font-weight: 600;
+}
+.weitongg {
+  background-color: #ffffff;
+  color: #b1b1b1;
+  border: none;
+  border-radius: 8px;
+  font-size: 24px;
+  width: 100px;
+  height: 36px;
+  margin-left: 8px;
+  outline: none;
+  font-weight: 600;
+}
+.jielun span {
+  color: #ff4647;
+  font-size: 15px;
+}
+</style>

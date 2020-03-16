@@ -1,0 +1,46 @@
+<template>
+  <div class="zongbox">
+    <div class="zong1">
+      <img  src="../../assets/zong1.png" alt />
+    </div>
+    <div class="zong1" style="margin-top: 30px;cursor:pointer;">
+        <img  src="../../assets/zong2.png" alt @click="chaKan"/>
+    </div>
+    <zhwl ref="zonghang"></zhwl>
+  </div>
+</template>
+
+<script>
+import zhwl from './modules/zonghangModal'
+export default {
+  name: 'zonghwl',
+  mixins: [],
+  components: {
+      zhwl
+  },
+  data() {
+    return {}
+  },
+  computed: {},
+  methods: {
+      //查看详情
+      chaKan(){
+          this.$refs.zonghang.dakai()
+      }
+  }
+}
+</script>
+<style lang="less" scoped>
+@import '~@assets/less/common.less';
+.zongbox{
+    padding: 15px 30px;
+}
+.zong1{
+    width: 100%;
+    height: 100%;
+    img{
+      width: 100%;
+      height: 100%;  
+    }
+}
+</style>
